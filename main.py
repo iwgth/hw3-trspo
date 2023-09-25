@@ -24,3 +24,10 @@ if __name__ == "__main__":
     end_time = time.time()
     print(f"Середня к-ть кроків: {average_steps}")
     print(f"Час виконання: {end_time - start_time} с")
+    
+#Never gonna give you up
+#Never gonna let you down
+#Never gonna run around and desert you
+#Never gonna make you cry
+#Never gonna say goodbye
+#Never gonna tell a lie and hurt you
