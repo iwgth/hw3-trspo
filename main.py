@@ -16,7 +16,7 @@ def calculate_average_steps(numbers, num_threads):
     pool.join()
     return sum(results) / len(numbers)
 if __name__ == "__main__":
-    N = int(input("Введіть N (к-ть натуральних чисел): "))
+    N = int(input("Введіть к-ть натуральних чисел: "))
     num_threads = int(input("Введіть к-ть потоків: "))
     numbers = list(range(1, N + 1))
     start_time = time.time()
