@@ -24,3 +24,4 @@ if __name__ == "__main__":
     end_time = time.time()
     print(f"Середня к-ть кроків: {average_steps}")
     print(f"Час виконання: {end_time - start_time} с")
+#ням ням ням
