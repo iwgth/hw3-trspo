@@ -10,7 +10,7 @@ def collatz(n, results):
         else:
             n = 3 * n + 1
         count += 1
-    results.put(count) 
+    results.put(count)
 
 def main():
     n = int(input("Введіть N: "))
@@ -18,17 +18,30 @@ def main():
     threads_count = int(input("Введіть кількість потоків: "))
     results = Queue()
     threads = []
-    for i in range(n):
-        thread = threading.Thread(target=collatz, args=(numbers[i], results))
+
+    def worker():
+        while True:
+            try:
+                number = numbers.pop()
+            except IndexError:
+                break
+            collatz(number, results)
+
+    for _ in range(threads_count):
+        thread = threading.Thread(target=worker)
         thread.start()
         threads.append(thread)
+
     for thread in threads:
         thread.join()
+
     steps_sum = 0
     while not results.empty():
         steps_sum += results.get()
+
     average_steps = steps_sum / n
     print("Середня кількість кроків:", average_steps)
+
 if __name__ == "__main__":
     start_time = time.time()
     main()
