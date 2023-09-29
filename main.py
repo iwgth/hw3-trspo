@@ -1,7 +1,7 @@
 import threading
 import time
 from queue import Queue
-
+#1
 def collatz(n, results):
     count = 0
     while n > 1:
