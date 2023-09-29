@@ -10,7 +10,7 @@ def collatz(n, results):
         else:
             n = 3 * n + 1
         count += 1
-    results.put(count)  # Додаємо результат до черги
+    results.put(count) 
 
 def main():
     n = int(input("Введіть N: "))
