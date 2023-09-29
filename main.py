@@ -1,26 +1,36 @@
-import multiprocessing
+import threading
 import time
-def collatz_steps(n):
-    steps = 0
-    while n != 1:
+from queue import Queue
+
+def collatz(n, results):
+    count = 0
+    while n > 1:
         if n % 2 == 0:
-            n //= 2
+            n = n // 2
         else:
             n = 3 * n + 1
-        steps += 1
-    return steps
-def calculate_average_steps(numbers, num_threads):
-    pool = multiprocessing.Pool(processes=num_threads)
-    results = pool.map(collatz_steps, numbers)
-    pool.close()
-    pool.join()
-    return sum(results) / len(numbers)
+        count += 1
+    results.put(count)  # Додаємо результат до черги
+
+def main():
+    n = int(input("Введіть N: "))
+    numbers = list(range(1, n + 1))
+    threads_count = int(input("Введіть кількість потоків: "))
+    results = Queue()
+    threads = []
+    for i in range(n):
+        thread = threading.Thread(target=collatz, args=(numbers[i], results))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
+    steps_sum = 0
+    while not results.empty():
+        steps_sum += results.get()
+    average_steps = steps_sum / n
+    print("Середня кількість кроків:", average_steps)
 if __name__ == "__main__":
-    N = int(input("Введіть к-ть натуральних чисел: "))
-    num_threads = int(input("Введіть к-ть потоків: "))
-    numbers = list(range(1, N + 1))
     start_time = time.time()
-    average_steps = calculate_average_steps(numbers, num_threads)
+    main()
     end_time = time.time()
-    print(f"Середня к-ть кроків: {average_steps}")
-    print(f"Час виконання: {end_time - start_time} с")
+    print("Час виконання:", end_time - start_time)
